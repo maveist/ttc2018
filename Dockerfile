@@ -1,7 +1,7 @@
 FROM r-base:3.5.1
 
 RUN apt-get update
-RUN apt-get -y install git wget gpg python maven javacc
+RUN apt-get -y install git wget gpg python maven
 COPY ./ttc2018liveContest ./ttc2018liveContest
 # RUN git clone https://github.com/TransformationToolContest/ttc2018liveContest
 
