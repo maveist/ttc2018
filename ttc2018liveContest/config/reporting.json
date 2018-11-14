@@ -1,0 +1,33 @@
+{
+  "Dimensions": {
+    "X_Dimensions": {
+      "ChangeSet": true,
+      "Iteration": false
+    },
+    "Groups": {
+      "View": false,
+      "Tool": true
+    }
+  },
+  "Summarize_Functions": [
+    {
+      "Name": "Updates",
+      "Phases": [
+        "Update"
+      ]
+    },
+	{
+	  "Name": "Batch",
+	  "Phases": [
+		"Initial"
+	  ]
+	},
+	{
+	  "Name": "Load",
+	  "Phases": [
+	    "Load"
+	  ]
+	}
+  ],
+  "Extension": ["png", "pdf"]
+}

@@ -1,0 +1,12 @@
+{
+  "Queries": [
+    "Q1"
+  ],
+  "Tools": ["Hawk", "EMFSolutionAOF", "EMFSolutionTemplate"],
+  "ChangeSets": [
+    "1"
+  ],
+  "Sequences": 2,
+  "Runs": 1,
+  "Timeout": 6000
+}
