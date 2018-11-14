@@ -19,7 +19,6 @@ public class SolutionQ1 extends Solution {
 	@Override
 	public String Initial() {
 		// TODO Implement Q1
-		System.out.println("LINKO STARTO");
 		EList<Post> listPosts = initLists();
 		System.out.println(Integer.toString(listPosts.size()));
 		MostControversialPostList topList = new MostControversialPostList();
@@ -27,8 +26,7 @@ public class SolutionQ1 extends Solution {
 			int nbPoints = getNbPointsPost(post);
 			topList.pushPost(post, nbPoints);
 		}
-		return "COUCOU";
-		//return topList.getMostContreversialPosts();
+		return topList.getMostContreversialPosts();
 	}
 
 	@Override
@@ -53,7 +51,6 @@ public class SolutionQ1 extends Solution {
 			Pair<Integer, HashSet<User>> res = getNbCommentAndLike(comment);
 			nbComment += res.getFirst();
 			likerSet.addAll(res.getSecond());
-			System.out.println("getnbpointspost");
 		}
 		return nbComment*10 + likerSet.size();
 	}
@@ -66,7 +63,6 @@ public class SolutionQ1 extends Solution {
 			nbComment += res.getFirst();
 			likerSet.addAll(res.getSecond());
 		}
-		System.out.println("getnbcommentandlike");
 		return new Pair<Integer, HashSet<User>>(nbComment, likerSet);
 	}
 	
