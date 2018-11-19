@@ -69,32 +69,62 @@ public class SolutionQ1 extends Solution {
 	public class MostControversialPostList{
 		
 		private Pair<Integer, Post>[] posts;
-		private int nbElem;
-		
 		public MostControversialPostList() {
 			posts = new Pair[3];
-			nbElem = 0;
 		}
+		
+		//i<=1 && posts[i+1].getSecond().getTimestamp().compareTo(posts[i].getSecond().getTimestamp()) == -1
 		
 		public void pushPost(Post p, int nbPoints) {
 			Pair<Integer, Post> newPair = new Pair(nbPoints, p);
 			for(int i = 0; i<3;i++) {
 				if(posts[i] == null) {
 					posts[i] = newPair;
-					nbElem++;
 					break;
 				}else if(posts[i].getFirst() < nbPoints && isFull()){
 					posts[i] = newPair;
 					break;
 				}else if(posts[i].getFirst() < nbPoints && !isFull()) {
 					posts[i+1] = posts[i];
-					posts[i] = newPair;
+				}else if(posts[i].getFirst() == nbPoints && isFull()) {
+					if(p.getTimestamp().compareTo(posts[i].getSecond().getTimestamp()) == 1) {
+						Pair tmp = posts[i];
+						for(int j=i; j<2; j++) {
+							Pair tmp1 = posts[j+1];
+							posts[j+1] = tmp;
+							tmp = tmp1;
+						}
+						posts[i] = newPair;
+						break;
+					}
+				}else if(posts[i].getFirst() == nbPoints && !isFull()) {
+					if(p.getTimestamp().compareTo(posts[i].getSecond().getTimestamp()) == 1) {
+					int k = i;
+					Pair tmp = posts[i];
+					for(int j=i; j<nbElem()-1; j++) {
+						Pair tmp1 = posts[j+1];
+						posts[j+1] = tmp;
+						tmp = tmp1;
+					}
+					posts[k] = newPair;					
+					break;
+					}
 				}
 			}
 		}
 		
+		public int nbElem() {
+			int cpt = 0;
+			for(int i=0; i<3; i++) {
+				if(posts[i] != null) {
+					cpt++;
+				}
+			}
+			return cpt;
+		}
+		
 		public boolean isFull() {
-			return nbElem == 3;
+			return nbElem() == 3;
 		}
 		
 		public String getMostContreversialPosts() {
