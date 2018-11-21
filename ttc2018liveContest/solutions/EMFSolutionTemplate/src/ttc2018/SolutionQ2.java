@@ -34,6 +34,7 @@ public class SolutionQ2 extends Solution {
 		for(Post p : listPosts) {
 				EList<Comment> listComments = p.getComments();
 				for(Comment com : listComments) {
+					//on parcours en profondeur tout les commentaires du post
 					parcoursProfondeur(com);
 				}
 		}
@@ -50,6 +51,8 @@ public class SolutionQ2 extends Solution {
 		return null;
 	}
 	
+	// On regarde le nombre de points du commentaire, puis
+	// on parcours en profondeur le commentaire.
 	public void parcoursProfondeur(Comment comment) {
 		
 		long points = countPoints(comment);
@@ -71,10 +74,11 @@ public class SolutionQ2 extends Solution {
 	
 	private long countPoints(Comment comment) {
 		EList<User> likedBy = comment.getLikedBy();
-		List<HashSet<User>> listStronglyConnectedUsers = new ArrayList<HashSet<User>>();
+		List<HashSet<User>> listStronglyConnectedUsers = new ArrayList<HashSet<User>>(); // liste qui va contenir des Set d'utilisateurs, un set correspondant à une composantes fortement connexe
 		
 		Iterator<User> iter = likedBy.iterator();
 		
+		//On parcours les personnes ayant liké le commentaire
 		while(iter.hasNext()) {
 			HashSet<User> stronglyConnectedUsers = new HashSet<User>();
 			User currentUser = iter.next();
@@ -82,10 +86,10 @@ public class SolutionQ2 extends Solution {
 				stronglyConnectedUsers.add(currentUser);
 				this.toRemove.add(currentUser);
 				//iter.remove();
-				HashSet<User> connectedFriends = hasFriendInList(currentUser,likedBy); // on recupere les users avec lesquels l'user courant (u) est ami.
+				HashSet<User> connectedFriends = hasFriendInList(currentUser,likedBy); // on recupere les users avec lesquels l'user courant est ami.
 				
 				
-				
+				// Si il est ami avec des gens qui ont aussi liké le commentaire, alors on regarde si a leurs tours ils sont amis avec des gens.
 				if(!connectedFriends.isEmpty()) {
 					for(User connectedFriend : connectedFriends) {
 						profondeurFriends(connectedFriend, likedBy, stronglyConnectedUsers);
@@ -145,15 +149,11 @@ public class SolutionQ2 extends Solution {
 
 	public class MostInfluentialCommentList{
 		
-		//private Pair<Integer, Comment>[] comments;
-		public TreeMap<Long,Comment> _comments;
 		
 		public TreeMap<Pair<Long,Date>,Comment> commentsv2;
 		
 		
 		public MostInfluentialCommentList() {
-			//comments = new Pair[3];
-			_comments = new TreeMap<Long,Comment>();
 			commentsv2 = new TreeMap<Pair<Long,Date>,Comment>(new InfluentialCommentComparator());
 		}
 		
@@ -163,29 +163,11 @@ public class SolutionQ2 extends Solution {
 			if(commentsv2.size() > 3) {
 				commentsv2.pollFirstEntry();
 			}
-			/*
-			Comment test = _comments.get(nbPoints);
-			if(test == null) {
-				_comments.put(nbPoints, com);
-			}else {
-				int resultCompare = test.getTimestamp().compareTo(com.getTimestamp());
-				if(resultCompare < 0) {
-					_comments.remove(nbPoints, test);
-					_comments.put(nbPoints, com);
-				}
-			}*/
 		}
 		
 		public String getMostInfluentialComments() {
-			/*Comment[] higherThree = new Comment[3];
-			NavigableSet<Long> nav = _comments.descendingKeySet();
-			Iterator<Long> navIter = nav.iterator();
-			for(int i = 0; i<3; i++) {
-				long key = navIter.next();
-				higherThree[i] = _comments.get(key);
-			}
-			return higherThree[0].getId()+"|"+higherThree[1].getId()+"|"+higherThree[2].getId();*/
 			List<Comment> coms = new ArrayList(commentsv2.values());
+			// le premier element etant le plus petit, on change de sens.
 			return coms.get(2).getId()+"|"+coms.get(1).getId()+"|"+coms.get(0).getId();
 		}
 	}
